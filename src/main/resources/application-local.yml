@@ -12,3 +12,8 @@ spring:
       name: ${spring.application.name}
   main:
     allow-bean-definition-overriding: true
+
+  service:
+    tech-support:
+      service-url:
+        email-sender: "localhost"

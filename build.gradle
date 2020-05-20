@@ -35,3 +35,7 @@ bootJar {
 springBoot {
     mainClassName = 'ml.socshared.service.support.Application'
 }
+
+test {
+    useJUnitPlatform()
+}

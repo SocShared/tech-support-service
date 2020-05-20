@@ -4,8 +4,8 @@ stages:
   - build
   - docker-build
   - docker-push
-  - docker-deploy-swarm
-
+#  - docker-deploy-swarm
+#
 before_script:
   - chmod +x gradlew
 
@@ -26,8 +26,8 @@ docker-push:
   script:
     - sudo docker login -u "$CI_DOCKER_LOGIN" -p "$CI_DOCKER_PASSWORD"
     - sudo docker push $CI_DOCKER_LOGIN/tech-support-service
-
-docker-deploy-swarm:
-  stage: docker-deploy-swarm
-  script:
-    - sudo docker stack deploy -c docker-compose.yaml socshared
+#
+#docker-deploy-swarm:
+#  stage: docker-deploy-swarm
+#  script:
+#    - sudo docker stack deploy -c docker-compose.yaml socshared

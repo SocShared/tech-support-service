@@ -1,10 +1,17 @@
 package ml.socshared.service.support.domain.object;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 @Data
-public class FullQuestion extends Question {
-    Page<Comment> comments;
+@NoArgsConstructor
+@AllArgsConstructor
+public class FullQuestion extends QuestionResponse {
+    PageResponse<Comment> comments;
 }

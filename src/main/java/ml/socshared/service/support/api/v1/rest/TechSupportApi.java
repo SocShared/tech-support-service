@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import ml.socshared.service.support.domain.object.*;
 import org.aspectj.weaver.patterns.TypePatternQuestions;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.HashMap;
 
@@ -15,13 +17,13 @@ public interface TechSupportApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Question created")
     })
-    void addQuestion(Question question);
+    Integer addQuestion(Question question);
 
     @ApiOperation(value = "Returns a short list of questions")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message ="successful")
     })
-    Page<ShortQuestion> getQuestionsList(Integer size, Integer page);
+    PageResponse<ShortQuestion> getQuestionsList(Pageable pageable);
 
     @ApiOperation(value = "get question and list comments", response = FullQuestion.class,
     httpMethod = "GET")
@@ -29,7 +31,7 @@ public interface TechSupportApi {
             @ApiResponse(code = 200, message = "return question and list comments"),
             @ApiResponse(code = 404, message = "question not found")
     })
-    FullQuestion getFullQuestion(Integer questionId);
+    FullQuestion getFullQuestion(Integer questionId, Pageable pageable);
 
     @ApiOperation(value = "create comment of question", httpMethod = "POST")
     @ApiResponses(value = {
