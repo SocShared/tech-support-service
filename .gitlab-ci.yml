@@ -14,7 +14,7 @@ build:
   script: ./gradlew clean build
   artifacts:
     paths:
-      - build/libs/socshared-microservice-template-1.0.0-SNAPSHOT.jar
+      - build/libs/tech-support-service-1.0.0-SNAPSHOT.jar
 
 docker-build:
   stage: docker-build
