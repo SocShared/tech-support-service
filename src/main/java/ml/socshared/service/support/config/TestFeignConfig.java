@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile({Constants.LOCAL_PROFILE, Constants.TEST_PROFILE})
+@Profile({Constants.LOCAL_PROFILE, Constants.TEST_PROFILE, Constants.DEV_PROFILE})
 public class TestFeignConfig {
     @Bean
     EmailSenderClient getEmailAPIClient() {
