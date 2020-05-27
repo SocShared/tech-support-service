@@ -1,15 +1,16 @@
+server:
+  port: 8885
+
 spring:
   datasource:
-    url: jdbc:postgresql://postgres-db:5432/name_db
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}/${POSTGRES_DB:tech_support}
     driver-class-name: org.postgresql.Driver
     username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
+    password: ${POSTGRES_PASS}
   jpa:
-    hibernate:
-      ddl-auto: create-drop
-  zipkin:
-    base-url: http://zipkin:9411/
-    service:
-      name: ${spring.application.name}
-  main:
-    allow-bean-definition-overriding: true
+    generate-ddl: true
+
+  # zipkin:
+  #   base-url: http://zipkin:9411/
+  #   service:
+  #     name: ${spring.application.name}
