@@ -2,7 +2,7 @@ version: '3.7'
 services:
   tech-support:
     container_name: tech-support
-    image: lexgv/tech-support
+    image: lexgv/tech-support-service
     ports:
       - 8885:8885
     env_file:
