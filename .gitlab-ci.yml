@@ -4,8 +4,8 @@ stages:
   - build
   - docker-build
   - docker-push
-#  - docker-deploy-swarm
-#
+  - docker-deploy-swarm
+
 before_script:
   - chmod +x gradlew
 
