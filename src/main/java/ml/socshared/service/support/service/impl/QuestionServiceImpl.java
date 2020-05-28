@@ -88,7 +88,7 @@ public class QuestionServiceImpl implements QuestionService {
 
         Map<String, Object> additional = new HashMap<>();
         additional.put("question_list", page);
-        sentrySender.sentryMessage("create question", additional,
+        sentrySender.sentryMessage("get questions page", additional,
                 Collections.singletonList(SentryTag.GetQuestions));
 
         return page;
@@ -121,7 +121,7 @@ public class QuestionServiceImpl implements QuestionService {
         Map<String, Object> additional = new HashMap<>();
         additional.put("question_id", questionId);
         additional.put("num_answers", pc.getSize() - 1);
-        sentrySender.sentryMessage("create question", additional,
+        sentrySender.sentryMessage("get full question page", additional,
                 Collections.singletonList(SentryTag.GetFullQuestion));
 
         return res;
