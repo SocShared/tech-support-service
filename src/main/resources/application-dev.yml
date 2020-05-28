@@ -9,8 +9,3 @@ spring:
     password: ${POSTGRES_PASS}
   jpa:
     generate-ddl: true
-
-  # zipkin:
-  #   base-url: http://zipkin:9411/
-  #   service:
-  #     name: ${spring.application.name}

@@ -10,6 +10,8 @@ import ml.socshared.service.support.repository.CommentRepository;
 import ml.socshared.service.support.repository.QuestionRepository;
 import ml.socshared.service.support.service.EmailSender;
 import ml.socshared.service.support.service.QuestionService;
+import ml.socshared.service.support.service.sentry.SentrySender;
+import ml.socshared.service.support.service.sentry.SentryTag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -23,11 +25,14 @@ public class QuestionServiceImpl implements QuestionService {
     private EmailSender emailSender;
     private QuestionRepository questionRep;
     private CommentRepository commentRep;
+    private SentrySender sentrySender;
     @Autowired
-    public QuestionServiceImpl(QuestionRepository qrp, CommentRepository crp, EmailSender es) {
+    public QuestionServiceImpl(QuestionRepository qrp, CommentRepository crp, EmailSender es,
+                               SentrySender sentry) {
         this.commentRep = crp;
         this.questionRep = qrp;
         this.emailSender = es;
+        this.sentrySender = sentry;
     }
 
     @Override
@@ -50,6 +55,14 @@ public class QuestionServiceImpl implements QuestionService {
         } catch (SendEmailError err) {
             log.error(err.getMessage());
         }
+
+        Map<String, Object> additional = new HashMap<>();
+        additional.put("title", q.getTitle());
+        additional.put("text", q.getText());
+        additional.put("system_user_id", q.getAuthorId());
+        sentrySender.sentryMessage("create question", additional,
+                Collections.singletonList(SentryTag.CreateQuestion));
+
         return qdb.getId();
     }
 
@@ -72,6 +85,12 @@ public class QuestionServiceImpl implements QuestionService {
         page.setData(res);
         page.setPage(pageable.getPageNumber());
         page.setSize(res.size());
+
+        Map<String, Object> additional = new HashMap<>();
+        additional.put("question_list", page);
+        sentrySender.sentryMessage("create question", additional,
+                Collections.singletonList(SentryTag.GetQuestions));
+
         return page;
     }
 
@@ -98,6 +117,13 @@ public class QuestionServiceImpl implements QuestionService {
         res.setAuthorId(q.get().getAuthorId());
         res.setQuestionId(q.get().getId());
         res.setTitle(q.get().getTitle());
+
+        Map<String, Object> additional = new HashMap<>();
+        additional.put("question_id", questionId);
+        additional.put("num_answers", pc.getSize() - 1);
+        sentrySender.sentryMessage("create question", additional,
+                Collections.singletonList(SentryTag.GetFullQuestion));
+
         return res;
     }
 
@@ -128,6 +154,13 @@ public class QuestionServiceImpl implements QuestionService {
             }
 
         }
+
+        Map<String, Object> additional = new HashMap<>();
+        additional.put("question_id", questionId);
+        additional.put("system_user_id", comm.getAuthorId());
+        sentrySender.sentryMessage("create comment for question", additional,
+                Collections.singletonList(SentryTag.AddComment));
+
         return comment.getId();
     }
 
@@ -139,6 +172,12 @@ public class QuestionServiceImpl implements QuestionService {
             log.info(msg);
             throw new HttpNotFoundException(msg);
         }
+
+
+        Map<String, Object> additional = new HashMap<>();
+        additional.put("question_id", questionId);
+        sentrySender.sentryMessage("remove question", additional,
+                Collections.singletonList(SentryTag.RemoveQuestion));
 
         questionRep.delete(q.get());
 
@@ -153,6 +192,12 @@ public class QuestionServiceImpl implements QuestionService {
             log.info(msg);
             throw new HttpNotFoundException(msg);
         }
+
+        Map<String, Object> additional = new HashMap<>();
+        additional.put("question_id", questionId);
+        additional.put("comment_id", commentId);
+        sentrySender.sentryMessage("remove comment", additional,
+                Collections.singletonList(SentryTag.RemoveComment));
 
         commentRep.delete(c.get());
     }
