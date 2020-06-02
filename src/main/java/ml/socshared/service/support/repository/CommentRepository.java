@@ -1,6 +1,8 @@
 package ml.socshared.service.support.repository;
 
 import ml.socshared.service.support.domain.db.CommentDB;
+import ml.socshared.service.support.domain.db.QuestionDB;
+import ml.socshared.service.support.domain.object.Question;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -21,4 +23,6 @@ public interface CommentRepository extends CrudRepository<CommentDB,Integer> {
 
     @Query("SELECT c FROM CommentDB c WHERE c.question.id = :questionId AND c.id = :commentId")
     Optional<CommentDB> findById(Integer questionId, Integer commentId);
+
+    void deleteCommentDBByQuestion(QuestionDB q);
 }

@@ -9,6 +9,7 @@ import org.aspectj.weaver.patterns.TypePatternQuestions;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 
 @Api(value = "Controller for tech-support api")
@@ -38,7 +39,7 @@ public interface TechSupportApi {
             @ApiResponse(code = 200, message = "comment created"),
             @ApiResponse(code = 404, message = "question not found")
     })
-    Integer addCommentToQuestion(Integer questionId, Comment comment);
+    Integer addCommentToQuestion(Integer questionId,Comment comment);
 
     @ApiOperation(value = "removing question and all comments of question", httpMethod = "DELETE")
     @ApiResponses(value = {

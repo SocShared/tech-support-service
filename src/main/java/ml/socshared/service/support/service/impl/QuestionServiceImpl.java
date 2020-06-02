@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -84,7 +85,7 @@ public class QuestionServiceImpl implements QuestionService {
         PageResponse<ShortQuestion> page = new PageResponse<>();
         page.setData(res);
         page.setPage(pageable.getPageNumber());
-        page.setSize(res.size());
+        page.setSize(pageable.getPageSize());
 
         Map<String, Object> additional = new HashMap<>();
         additional.put("question_list", page);
@@ -113,7 +114,7 @@ public class QuestionServiceImpl implements QuestionService {
             comments.add(comment);
         }
         FullQuestion res = new FullQuestion();
-        res.setComments(new PageResponse<Comment>(comments.size(),pageable.getPageNumber(),comments));
+        res.setComments(new PageResponse<Comment>(pc.getSize(),pc.getNumber(),pc.getTotalElements(), pc.getTotalPages(),comments));
         res.setAuthorId(q.get().getAuthorId());
         res.setQuestionId(q.get().getId());
         res.setTitle(q.get().getTitle());
@@ -165,6 +166,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    @Transactional
     public void removeQuestion(Integer questionId) {
         Optional<QuestionDB> q = questionRep.findById(questionId);
         if(q.isEmpty()) {
@@ -172,15 +174,15 @@ public class QuestionServiceImpl implements QuestionService {
             log.info(msg);
             throw new HttpNotFoundException(msg);
         }
+        commentRep.deleteCommentDBByQuestion(q.get());
+
+        questionRep.delete(q.get());
 
 
         Map<String, Object> additional = new HashMap<>();
         additional.put("question_id", questionId);
         sentrySender.sentryMessage("remove question", additional,
                 Collections.singletonList(SentryTag.RemoveQuestion));
-
-        questionRep.delete(q.get());
-
     }
 
     @Override

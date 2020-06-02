@@ -16,9 +16,9 @@ public class CommentDB {
     Integer id;
     @Column(name = "author_id")
     UUID authorId;
-    @Column(name="text")
+    @Column(name="text", length = 1000)
     String text;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "question_id")
     QuestionDB question;
 

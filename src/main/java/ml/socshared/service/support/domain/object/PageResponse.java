@@ -12,5 +12,7 @@ import java.util.List;
 public class PageResponse<T> {
     Integer size;
     Integer page;
+    Long totalElements;
+    Integer totalPages;
     List<T> data;
 }
