@@ -10,8 +10,23 @@ spring:
   jpa:
     generate-ddl: true
 
+  zipkin:
+    base-url: http://zipkin:9411/
+    service:
+      name: ${spring.application.name}
+  main:
+    allow-bean-definition-overriding: true
+
+
 
 feign:
   url:
     auth: ${AUTH_SERVICE:http://auth-service:9999}
-    email-sender: ${EMAIL_SENDER:http://email-sender}
+    email-sender: ${EMAIL_SENDER:http://email-sender:8585}
+
+  
+management:
+  endpoints:
+    web:
+      exposure:
+        include: auditevents, beans, caches, conditions, configprops, health, httptrace, info, loggers, metrics, mappings, shutdown
