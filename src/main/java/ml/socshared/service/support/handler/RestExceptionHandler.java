@@ -16,14 +16,14 @@ import ml.socshared.service.support.exception.AbstractRestHandleableException;
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     private ResponseEntity<RestApiError> buildErrorResponse(Throwable exc, HttpStatus httpStatus,
-                                                            ServletWebRequest webRequest, SocsharedErrors errorCode) {
-        return new ResponseEntity<>(new RestApiError(exc, httpStatus, webRequest, errorCode), httpStatus);
+                                                            ServletWebRequest webRequest) {
+        return new ResponseEntity<>(new RestApiError(exc, httpStatus, webRequest), httpStatus);
     }
 
     @ExceptionHandler(AbstractRestHandleableException.class)
     public ResponseEntity<RestApiError> handlePrintException(ServletWebRequest webRequest, AbstractRestHandleableException exc) {
         log.error(exc.getMessage());
-        return buildErrorResponse(exc, exc.getHttpStatus(), webRequest, exc.getErrorCode());
+        return buildErrorResponse(exc, exc.getHttpStatus(), webRequest);
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -31,7 +31,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<RestApiError> handlePrintException(ServletWebRequest webRequest, Throwable exc) {
         log.error(exc.getMessage());
         exc.printStackTrace();
-        return buildErrorResponse(exc, HttpStatus.INTERNAL_SERVER_ERROR, webRequest, SocsharedErrors.INTERNAL);
+        return buildErrorResponse(exc, HttpStatus.INTERNAL_SERVER_ERROR, webRequest);
     }
 }
 
