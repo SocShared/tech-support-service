@@ -13,7 +13,8 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
-  service:
-    tech-support:
-      service-url:
-        email-sender: "localhost"
+
+feign:
+  url:
+    auth: ${AUTH_SERVICE:localhost:19999}
+    email-sender: ${EMAIL_SENDER:}

@@ -1,4 +1,4 @@
-package ml.socshared.service.support.config.security;
+package ml.socshared.service.support.security.config;
 
 import lombok.extern.slf4j.Slf4j;
 import ml.socshared.service.support.config.Constants;
@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableWebSecurity
-@Profile({Constants.TEST_PROFILE})
+@Profile({Constants.TEST_PROFILE, })
 @Slf4j
 public class SecurityConfigLocal extends WebSecurityConfigurerAdapter {
 

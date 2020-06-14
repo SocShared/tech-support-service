@@ -9,3 +9,9 @@ spring:
     password: ${POSTGRES_PASS}
   jpa:
     generate-ddl: true
+
+
+feign:
+  url:
+    auth: ${AUTH_SERVICE:http://auth-service:9999}
+    email-sender: ${EMAIL_SENDER:http://email-sender}
