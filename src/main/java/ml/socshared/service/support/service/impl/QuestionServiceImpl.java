@@ -62,7 +62,7 @@ public class QuestionServiceImpl implements QuestionService {
         additional.put("text", q.getText());
         additional.put("system_user_id", q.getAuthorId());
         sentrySender.sentryMessage("create question", additional,
-                Collections.singletonList(SentryTag.CreateQuestion));
+                Collections.singletonList(SentryTag.CREATE_QUESTION));
 
         return qdb.getId();
     }
@@ -90,7 +90,7 @@ public class QuestionServiceImpl implements QuestionService {
         Map<String, Object> additional = new HashMap<>();
         additional.put("question_list", page);
         sentrySender.sentryMessage("get questions page", additional,
-                Collections.singletonList(SentryTag.GetQuestions));
+                Collections.singletonList(SentryTag.GET_QUESTIONS));
 
         return page;
     }
@@ -123,7 +123,7 @@ public class QuestionServiceImpl implements QuestionService {
         additional.put("question_id", questionId);
         additional.put("num_answers", pc.getSize() - 1);
         sentrySender.sentryMessage("get full question page", additional,
-                Collections.singletonList(SentryTag.GetFullQuestion));
+                Collections.singletonList(SentryTag.GET_FULL_QUESTION));
 
         return res;
     }
@@ -160,7 +160,7 @@ public class QuestionServiceImpl implements QuestionService {
         additional.put("question_id", questionId);
         additional.put("system_user_id", comm.getAuthorId());
         sentrySender.sentryMessage("create comment for question", additional,
-                Collections.singletonList(SentryTag.AddComment));
+                Collections.singletonList(SentryTag.ADD_COMMENT));
 
         return comment.getId();
     }
@@ -182,7 +182,7 @@ public class QuestionServiceImpl implements QuestionService {
         Map<String, Object> additional = new HashMap<>();
         additional.put("question_id", questionId);
         sentrySender.sentryMessage("remove question", additional,
-                Collections.singletonList(SentryTag.RemoveQuestion));
+                Collections.singletonList(SentryTag.REMOVE_QUESTION));
     }
 
     @Override
@@ -199,7 +199,7 @@ public class QuestionServiceImpl implements QuestionService {
         additional.put("question_id", questionId);
         additional.put("comment_id", commentId);
         sentrySender.sentryMessage("remove comment", additional,
-                Collections.singletonList(SentryTag.RemoveComment));
+                Collections.singletonList(SentryTag.REMOVE_COMMENT));
 
         commentRep.delete(c.get());
     }
