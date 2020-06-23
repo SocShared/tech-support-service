@@ -148,7 +148,7 @@ public class QuestionServiceImpl implements QuestionService {
         if(!comm.getAuthorId().equals(qd.getAuthorId())) {
             try {
                 emailSender.sendToUser("Ответ на вопрос: " + String.valueOf(qd.getId()),
-                        "Добрый день, на ваш вопрос: " + qd.getTitle() + "\n вы получили ответ.", UUID.randomUUID());
+                        "Добрый день, на ваш вопрос: " + qd.getTitle() + "\n вы получили ответ.", qd.getAuthorId());
             } catch (SendEmailError err) {
                 log.error(err.getMessage());
             }
