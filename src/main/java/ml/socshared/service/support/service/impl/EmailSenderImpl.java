@@ -39,10 +39,10 @@ public class EmailSenderImpl implements EmailSender {
     }
 
     @Override
-    public void sendToUser(String subject, String message, UUID userId) throws SendEmailError {
+    public void sendToUser(String subject, String text, UUID userId) throws SendEmailError {
         UserResponse user = authInfoService.getClientInfoById(userId);
         List<String> email = Collections.singletonList(user.getEmail());
-        SuccessResponse res = client.sendMessage(new SendMessageRequest(subject, message, email), "Bearer " + tokenMailSender.getToken());
+        SuccessResponse res = client.sendMessage(new SendMessageRequest(text, subject, "support@socshared.ml", email), "Bearer " + tokenMailSender.getToken());
         if(!res.getSuccess()) {
             throwErrorSendingMessage(email);
         }

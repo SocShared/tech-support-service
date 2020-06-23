@@ -12,7 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SendMessageRequest {
-    private String subject;
     private String text;
+    private String subject;
+    private String fromEmail;
     private List<String> toEmails;
 }
