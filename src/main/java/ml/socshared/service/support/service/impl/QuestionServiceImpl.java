@@ -146,7 +146,6 @@ public class QuestionServiceImpl implements QuestionService {
         comment = commentRep.save(comment);
 
         if(!comm.getAuthorId().equals(qd.getAuthorId())) {
-            //TODO передалть определение email пользователя
             try {
                 emailSender.sendToUser("Ответ на вопрос: " + String.valueOf(qd.getId()),
                         "Добрый день, на ваш вопрос: " + qd.getTitle() + "\n вы получили ответ.", UUID.randomUUID());
