@@ -27,6 +27,7 @@ public class QuestionServiceImpl implements QuestionService {
     private QuestionRepository questionRep;
     private CommentRepository commentRep;
     private SentrySender sentrySender;
+
     @Autowired
     public QuestionServiceImpl(QuestionRepository qrp, CommentRepository crp, EmailSender es,
                                SentrySender sentry) {
@@ -79,7 +80,6 @@ public class QuestionServiceImpl implements QuestionService {
             q.setAuthorId(el.getAuthorId());
             q.setTime(el.getTime());
             q.setTitle(el.getTitle());
-            q.setHaveResponse(commentRep.getCountComments(el.getId()) > 1);
             res.add(q);
         }
         PageResponse<ShortQuestion> page = new PageResponse<>();
