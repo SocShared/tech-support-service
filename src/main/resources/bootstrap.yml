@@ -5,7 +5,7 @@ server:
       enabled: false
 spring:
   application:
-    name: tech-support-service
+    name: tech-support
   profiles:
     active: ${SPRING_PROFILE:local}
 

@@ -1,12 +1,12 @@
 package ml.socshared.service.support.service.sentry;
 
 public enum SentryTag {
-    CreateQuestion("type", "create_question"),
-    GetQuestions("type", "get_questions_page"),
-    GetFullQuestion("type", "get_full_question"),
-    AddComment("type", "add_comment"),
-    RemoveQuestion("type", "remove_question"),
-    RemoveComment("type", "remove_comment");
+    CREATE_QUESTION("type", "create_question"),
+    GET_QUESTIONS("type", "get_questions_page"),
+    GET_FULL_QUESTION("type", "get_full_question"),
+    ADD_COMMENT("type", "add_comment"),
+    REMOVE_QUESTION("type", "remove_question"),
+    REMOVE_COMMENT("type", "remove_comment");
 
     SentryTag(String t, String tag) {
         type = t;
@@ -20,8 +20,7 @@ public enum SentryTag {
         return sentryTag;
     }
 
-    private String sentryTag;
-    private String type;
-    public static final String service_name = "TSS";
+    private final String sentryTag;
+    private final String type;
 
 }
