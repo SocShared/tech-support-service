@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import ml.socshared.service.support.security.client.AuthClient;
 import ml.socshared.service.support.security.model.ServiceDetails;
 import ml.socshared.service.support.security.request.CheckTokenRequest;
+import ml.socshared.service.support.security.request.ServiceTokenRequest;
+import ml.socshared.service.support.security.response.ServiceTokenResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -72,5 +74,9 @@ public class JwtTokenProvider {
             return token.substring(6).trim();
         }
         return null;
+    }
+
+    public ServiceTokenResponse buildServiceToken(ServiceTokenRequest request) {
+        return authClient.getServiceToken(request);
     }
 }
