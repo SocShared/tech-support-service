@@ -7,11 +7,14 @@ import ml.socshared.service.support.domain.client.SuccessResponse;
 import ml.socshared.service.support.domain.user.UserResponse;
 import ml.socshared.service.support.exception.email.SendEmailError;
 import ml.socshared.service.support.security.jwt.JwtTokenProvider;
+import ml.socshared.service.support.security.model.TokenObject;
 import ml.socshared.service.support.service.AuthInfoService;
 import ml.socshared.service.support.service.EmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.security.MessageDigest;
 import java.util.*;
@@ -22,6 +25,9 @@ public class EmailSenderImpl implements EmailSender {
 
     private final EmailSenderClient client;
     private final AuthInfoService authInfoService;
+
+    @Value("#{tokenGetter.getTokenMailSender()}")
+    private TokenObject tokenMailSender;
 
     @Override
     public void sendToAdministrateService(String subject, String message) throws SendEmailError {
@@ -36,7 +42,7 @@ public class EmailSenderImpl implements EmailSender {
     public void sendToUser(String subject, String message, UUID userId) throws SendEmailError {
         UserResponse user = authInfoService.getClientInfoById(userId);
         List<String> email = Collections.singletonList(user.getEmail());
-        SuccessResponse res = client.sendMessage(new SendMessageRequest(subject, message, email));
+        SuccessResponse res = client.sendMessage(new SendMessageRequest(subject, message, email), "Bearer " + tokenMailSender.getToken());
         if(!res.getSuccess()) {
             throwErrorSendingMessage(email);
         }
