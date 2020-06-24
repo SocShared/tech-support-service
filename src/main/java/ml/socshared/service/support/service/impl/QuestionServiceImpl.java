@@ -27,6 +27,7 @@ public class QuestionServiceImpl implements QuestionService {
     private QuestionRepository questionRep;
     private CommentRepository commentRep;
     private SentrySender sentrySender;
+
     @Autowired
     public QuestionServiceImpl(QuestionRepository qrp, CommentRepository crp, EmailSender es,
                                SentrySender sentry) {
@@ -79,7 +80,6 @@ public class QuestionServiceImpl implements QuestionService {
             q.setAuthorId(el.getAuthorId());
             q.setTime(el.getTime());
             q.setTitle(el.getTitle());
-            q.setHaveResponse(commentRep.getCountComments(el.getId()) > 1);
             res.add(q);
         }
         PageResponse<ShortQuestion> page = new PageResponse<>();
@@ -146,10 +146,9 @@ public class QuestionServiceImpl implements QuestionService {
         comment = commentRep.save(comment);
 
         if(!comm.getAuthorId().equals(qd.getAuthorId())) {
-            //TODO передалть определение email пользователя
             try {
                 emailSender.sendToUser("Ответ на вопрос: " + String.valueOf(qd.getId()),
-                        "Добрый день, на ваш вопрос: " + qd.getTitle() + "\n вы получили ответ.", UUID.randomUUID());
+                        "Добрый день, на ваш вопрос: " + qd.getTitle() + "\n вы получили ответ.", qd.getAuthorId());
             } catch (SendEmailError err) {
                 log.error(err.getMessage());
             }
