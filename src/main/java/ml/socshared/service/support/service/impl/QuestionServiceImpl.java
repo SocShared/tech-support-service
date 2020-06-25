@@ -87,6 +87,8 @@ public class QuestionServiceImpl implements QuestionService {
         page.setPage(pageable.getPageNumber());
         page.setSize(qp.getSize());
         page.setTotalElements(qp.getTotalElements());
+        page.setTotalPages(qp.getTotalPages());
+
 
         Map<String, Object> additional = new HashMap<>();
         additional.put("question_list", page);
